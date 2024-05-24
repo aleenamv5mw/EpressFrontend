@@ -1,0 +1,214 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@font-face {
+  font-family: 'mwfont';
+  src: local('gt-walsheim'), url(./fonts/mwfont/gt.ttf) format('truetype');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'mwfontBold';
+  src: local('gt-walsheim'), url(./fonts/mwfont/gt-walsheim-bold.ttf) format('truetype');
+  
+}
+
+
+
+
+.button {
+  background-color: #28bbbb !important;
+  border-radius: 0% !important;
+  border: none !important;
+}
+
+.btn-primary {
+  background-color: #28bbbb !important;
+  border-radius: 0% !important;
+  border: none !important;
+}
+/* .table-dark {
+	--bs-table-bg: #28bbbb !important;
+	
+  
+} */
+
+thead, th {
+  background-color: #28bbbb !important;
+}
+
+tr {
+font-family: 'mwfont' !important;
+overflow: scroll !important;
+    
+
+}
+
+/* table th {
+  width: auto !important;
+
+} */
+
+/* @media only screen and (max-width: 1300px)
+{
+.button.back {
+   
+
+}
+} */
+
+table table-dark table-striped table-bordered table-hover {
+  --bs-table-accent-bg: #212529 !important;
+  --bs-table-hover-color: #28bbbb !important;
+  
+}
+
+
+
+
+
+div {
+  font-family: 'mwfont';
+}
+
+
+
+
+
+
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-accent-bg: transparent;
+  --bs-table-striped-color: #212529;
+  --bs-table-striped-bg: white !important;
+  --bs-table-active-color: #212529;
+  --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+  --bs-table-hover-color: #212529;
+  --bs-table-hover-bg: #EBF2F2 !important;
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  vertical-align: top;
+  border-color: #dee2e6;
+}
+
+.table-dark {
+  --bs-table-bg: #212529;
+  --bs-table-striped-bg: #323539!important;
+  --bs-table-striped-color: #fff;
+  --bs-table-active-bg: #373b3e;
+  --bs-table-active-color: #fff;
+  --bs-table-hover-bg: #323539;
+  --bs-table-hover-color: black !important;
+  color: #fff;
+  border-color: #373b3e;
+}
+
+
+
+
+
+
+
+
+
+
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.accountHover:hover {
+  text-decoration: underline;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.navbar navbar-dark bg-primary {
+background-color: #28bbbb;
+}
+
+
+
+
+
+
+
+
+
+.paginationBttns {
+height: 40px;
+width: 80%;
+list-style: none;
+display:flex;
+justify-content: center;
+margin-left: -22px;
+
+}
+
+
+
+
+
+.paginationBttns a {
+  height: 40px;
+  padding:  8px;
+  margin: 8px;
+  border-radius: 0px;
+  width: 90%;
+  padding:10px;
+  list-style: none;
+  display:flex;
+  cursor: pointer;
+  border: 1px solid #28BBBB;
+  color: #28BBBB;
+  
+  }
+
+  .paginationBttns a:hover {
+    color: white;
+    background-color: #28BBBB;
+
+  }
+
+ 

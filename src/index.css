@@ -1,0 +1,7 @@
+
+
+@font-face {
+    font-family: 'mwfont';
+    src: local('gt-walsheim'), url(./fonts/mwfont/gt.ttf) format('truetype');
+    font-weight: normal;
+}
