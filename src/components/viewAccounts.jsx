@@ -145,6 +145,25 @@ const ViewAccounts = () => {
     console.log("Value of accountName = " + account.accountName + "cliend ID = " + account.id);
 
   }
+  const addFeed3 = (e, account) => {
+
+
+
+    navigate("/createespace", { state: { client_id: account.id, userName: userName, email: email, profilePic: profilePic, CLIENT_ID: CLIENT_ID, isLoggedIn: isLoggedIn } });
+    console.log("Value of accountName = " + account.accountName + "cliend ID = " + account.id);
+
+  }
+
+  const addFeed4 = (e, account) => {
+
+
+
+    navigate("/createpaikat", { state: { client_id: account.id, userName: userName, email: email, profilePic: profilePic, CLIENT_ID: CLIENT_ID, isLoggedIn: isLoggedIn } });
+    console.log("Value of accountName = " + account.accountName + "cliend ID = " + account.id);
+
+  }
+  
+  
 
 
   const redirectSub = (e, account) => {
@@ -417,7 +436,8 @@ const ViewAccounts = () => {
                       <td width="300px" style={{ fontSize: "14px" }}>{account.accountRepEmailId}</td>
                       <td width="200px"><Button className="button" style={{ fontFamily: "mwfont", width: "95px", textAlign: "center", fontSize: "14px" }} onClick={e => { addFeed(e, account) }} >Add a Feed</Button>
                       <Button className="button" style={{ fontFamily: "mwfont", width: "95px", textAlign: "center", fontSize: "14px" }} onClick={e => { addFeed2(e, account) }} >Add a Feed Avoin</Button>
-                      
+                      <Button className="button" style={{ fontFamily: "mwfont", width: "95px", textAlign: "center", fontSize: "14px" }} onClick={e => { addFeed3(e, account) }} >Add a Feed Espace</Button>
+                      <Button className="button" style={{ fontFamily: "mwfont", width: "95px", textAlign: "center", fontSize: "14px" }} onClick={e => { addFeed4(e, account) }} >Add a Feed Paikat</Button>
                         <Button className="button" style={{ marginLeft: "20px", fontSize: "14px", textAlign: "center", fontFamily: "'mwfont" }} onClick={e => { redirect(e, account) }}>View all Feeds</Button>
 
                         {isAdmin &&

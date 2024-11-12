@@ -1,51 +1,90 @@
-import React, { useState } from "react";
-
+import jsonp from 'jsonp';
+import React from "react";
+import { useState } from "react";
 import { Form, Button, Container, Alert, Badge } from "react-bootstrap";
 import Axios from "axios";
 import XMLParser from 'react-xml-parser';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 
-const CreateAvoin = () => {
+
+
+
+const CreateEspace = () => {
+
     const [articles, setArticles] = useState([]);
     const [noDoc, setNoDoc] = useState("");
     const [searchName, setName] = useState("");
-    const [businessId, setbusinessId] = useState("");
-    const [businessLine, setBusinessLine] = useState("");
-    const [avoinCall, setavoin] = useState("");
-    const [rssLink, setLink] = useState("");
-    const [saveEnable, setSave] = useState(true);
-    const [loaded, setLoaded] = useState(false);
-    const [message, setMessage] = useState(null);
-    const [isCopied, setCopy] = useState(false);
-    const navigate = useNavigate()
-    const [searchSaved, setSaved] = useState("");
-    const [count, setCount] = useState(0);;
-    const state = useLocation();
     const [booleanQuery, setBoolean] = useState("");
+    const [EspaceCall, setEspace] = useState("");
+    const [rssLink, setlink] = useState("");
+    const [saveEnable, setSave] = useState(true);
+    const [titles, setTitles] = useState([]);
+    const [pubDate, setDate] = useState([]);
+    const [source, setSource] = useState([]);
+    const [description, setDesc] = useState([]);
+    const [searchSaved, setSaved] = useState("");
+    const [count, setCount] = useState(0);
+    const [isCopied, setCopy] = useState(false);
+    const [keyword, setKeyword] = useState("");
+   
+
+    const [setLink]= useState("");
+    const [setGuid]= useState("");
+    
+    const navigate = useNavigate();
     var feedCount;
     var feedLimit;
+    const state = useLocation();
+    const [loaded, setLoaded] = useState(null);  //hook for loading animation
+    const [message, setMessage] = useState(null);
+    const token = localStorage.getItem("authToken");// Get stored token from localStorage
+    var key = 1;
     var currentDate = new Date();
     var endDate;
-    const token = localStorage.getItem("authToken");// Get stored token from localStorage
-
+    //user Details-----------
     const [userName, setUser] = useState(state.state.userName);
     const [email, setEmail] = useState(state.state.email);
     const [profilePic, setImage] = useState(state.state.profilePic);
     const [CLIENT_ID, setClientId] = useState(state.state.CLIENT_ID);
     const [isLoggedIn, setLogin] = useState(state.state.isLoggedIn);
-    const client_id = state.state.client_id;
+    //User Details-----------
+    console.log(userName, email, profilePic, CLIENT_ID, isLoggedIn);
+    const [flag, setFlag] = useState("");
 
-    const clearAll = () => {
+    const client_id = state.state.client_id;    //client ID passed down from the Accounts Page
+
+
+
+
+
+
+    const booleanGuide = () => {    //redirecting to the boolean guide
+
+
+
+
+        navigate("/booleanguide", { state: { client_id: client_id, userName: userName, email: email, CLIENT_ID: CLIENT_ID, isLoggedIn: isLoggedIn } });
+        // console.log("Value of accountName = " + account.accountName + "cliend ID = " + account.id);
+
+
+    }
+
+    const clearAll = async (e) => {    //clearing all the fields 
         setName("");
-        setbusinessId("");
-        setBusinessLine("");
+        setBoolean("");
         setCopy(false);
-        setNoDoc("");
+        setSaved("");
+        setCount(0);
         setArticles([]);
         setSave(true);
         setMessage(null);
+        setKeyword("");
+
     }
+
+
     const saveSearch = async (e) => {    //function to save the search
 
         setLoaded(true);
@@ -55,9 +94,9 @@ const CreateAvoin = () => {
         setSaved("");
         setCopy(false);
         console.log("Search Name = " + searchName + " Query = " + booleanQuery);
-        console.log("From the set function: " + avoinCall);
-        const sourceType = "avoin";
-        const feedUrl = avoinCall;
+        console.log("From the set function: " + EspaceCall);
+        const sourceType = "espace";
+        const feedUrl = EspaceCall;
         var subId;
 
 
@@ -146,7 +185,7 @@ const CreateAvoin = () => {
                         booleanQuery: booleanQuery,
                         searchName: searchName,
                         feedStatus: "Running",
-                        sourceType: "avoin",
+                        sourceType: "espace",
                         feedUrl: feedUrl,
                         emailId: email,
                         clientId: client_id,
@@ -192,7 +231,7 @@ const CreateAvoin = () => {
                             booleanQuery: booleanQuery,
                             searchName: searchName,
                             feedStatus: "Running",
-                            sourceType: "avoin",
+                            sourceType: "espace",
                             feedUrl: feedUrl,
                             emailId: email,
                             clientId: client_id,
@@ -248,7 +287,7 @@ const CreateAvoin = () => {
         //     booleanQuery: booleanQuery,
         //     searchName: searchName,
         //     feedStatus: "Running",
-        //     sourceType: "avoin",
+        //     sourceType: "espace",
         //     feedUrl: feedUrl,
         //     emailId: email,
         //     clientId: client_id,
@@ -300,127 +339,170 @@ const CreateAvoin = () => {
         navigate("/accounts", { state: { userName: userName, email: email, profilePic: profilePic, CLIENT_ID: CLIENT_ID, isLoggedIn: isLoggedIn } });
     }
 
-  
 
-    const getExample = async (e) => {
+
+
+
+    const getExample = async (e) => {              //function to get the example results based on the search boolean
+
         e.preventDefault();
         setArticles([]);
         setNoDoc(false);
         setMessage("");
 
-        let searchUrl = `https://avoindata.prh.fi/bis/v1?totalResults=true&maxResults=10&resultsFrom=0`;
-        if (businessId) {
-            searchUrl += `&businessId=${businessId}`;
-        } else if (businessLine) {
-            searchUrl += `&businessLine=${businessLine}`;
-        } else {
-            setMessage("Please provide a businessId or businessLine for the search.");
-            return;
-        }
 
-        setLoaded(true);
-        try {
-            const response = await Axios.get(searchUrl);
-            const data = response.data.results;
 
-            if (data.length === 0) {
+    
+
+        let EspaceCall = `https://fi.espacenet.com/websyndication/searchFeed?DB=EPODOC&ST=singleline&compact=false&locale=fi_FI&query=${encodeURIComponent(keyword)}`;
+        //  console.log(paikatCall);
+
+ 
+       
+        await Axios.get(EspaceCall).then(response => {     //making the api call to Espace
+            var rawRes = response;
+            var xml = new XMLParser().parseFromString(response.data);    //using xml parser to parse the response
+            console.log(xml);
+            //storing the titles, pubDate, link, description, guid in separate variables
+            var title = xml.getElementsByTagName("title");
+            title.shift();
+            var link = xml.getElementsByTagName("link");
+            var description = xml.getElementsByTagName("description");
+            description.shift();
+            var pubDate = xml.getElementsByTagName("pubDate");
+            var guid = xml.getElementsByTagName("guid");
+          
+            if (pubDate.length > 0) {        //checking if there are any hits using the pubDate node
+                setCount(pubDate.length);
+                setNoDoc(false);
+                setSave(false);
+                setTitles(title);
+                setDesc(description);
+                setlink(link);
+               
+                setDate(pubDate);
+                setGuid(guid);
+                setFlag("true");
+                var i = 0;
+                var articles = [];
+                for (i = 0; i < pubDate.length; i++) {
+                    articles.push({
+                        title: title[i].value,
+                        link: link[i].value,
+                        description: description[i].value,
+                        pubDate: pubDate[i].value,
+                        guid: guid[i].value,
+                    })
+                }
+                console.log(articles);
+                setArticles(articles);
+                setLoaded(false);
+
+
+                // console.log(title.length + "\n" + pubDate.length + "\n" + source.length + "\n" + description.length);
+
+            }
+            else {
+                console.log("No results found! Please check your boolean query.");
                 setNoDoc("true");
                 setLoaded(false);
-                return;
+                console.log(noDoc);
+
             }
 
-            // Sort by registrationDate descending
-            data.sort((a, b) => new Date(b.registrationDate) - new Date(a.registrationDate));
 
-            const articles = data.map(item => ({
-                title: item.name,
-                pubDate: item.registrationDate,
-                description: `Rekisteröity: ${item.registrationDate}, Toimiala: ${item.name}, Company Form: ${item.companyForm}`,
-                link: `http://www.kauppalehti.fi/yritykset/yritys/${item.name.replace(/ /g, '-')}/${item.businessId}`
-            }));
 
-            setArticles(articles);
-            setNoDoc(false);
-            setSave(false);
-            setLoaded(false);
+        }).catch(error => {
+            console.log("An error occurred: " + error);
+        });
 
-        } catch (error) {
-            setMessage("An error occurred while fetching the data. Please try again.");
-            setLoaded(false);
-        }
-    };
+    }
+
+
+
+
 
     return (
-        <Container style={{ width: "50%" }}>
+        <Container style={{width:"50%"}}>
             <br />
-            <Button className="button" onClick={() => {/* Back function implementation */}} style={{ width: "130px", margin: "5px" }}>Back</Button>
-            <Form onSubmit={getExample}>
+            <Button className="button"  onClick={back} style={{ width: "130px", margin: "5px" }}>Back</Button>
+            <Form onSubmit={e => { getExample(e); }}>
                 <Form.Group>
-                    <Alert variant="primary">Create your Avoin Feed</Alert>
+                    <Alert variant="primary">Create your Espace Feed</Alert>
                     <Form.Label>Search Name</Form.Label>
-                    <Form.Control
-                        required
-                        type="text"
-                        value={searchName}
-                        onChange={e => { setName(e.target.value); setMessage(null); }}
-                        name="searchName"
-                        placeholder="Enter the search name."
-                    />
-                    <Form.Label style={{ marginTop: "10px" }}>Business Line Code</Form.Label>
+                    <Form.Control required={true} type="text" value={searchName} onChange={e => { setName(e.target.value); setMessage(null); }} name="searchName" placeholder="Enter the search name." />
+                    <Form.Label style={{ marginTop: "10px" }}>Keyword</Form.Label>
                     <Form.Control
                         type="text"
-                        value={businessId}
-                        onChange={e => { setbusinessId(e.target.value); setSave(true); setArticles([]); setNoDoc(""); setCopy(false); setMessage(null); }}
-                        name="businessId"
-                        placeholder="Enter the business line code."
+                        value={keyword}
+                        onChange={e => { setKeyword(e.target.value); setSave(true); setArticles([]); setNoDoc(""); setCopy(false); setMessage(null); }}
+                        name="Keyword"
+                        placeholder="Enter keyword."
                     />
-                    <Form.Label style={{ marginTop: "10px" }}>Business Line</Form.Label>
-                    <Form.Control
-                        type="text"
-                        value={businessLine}
-                        onChange={e => { setBusinessLine(e.target.value); setSave(true); setArticles([]); setNoDoc(""); setCopy(false); setMessage(null); }}
-                        name="businessLine"
-                        placeholder="Enter the business line."
-                    />
-                    <Button className="button" type="submit">Get Example Results</Button>
-                    <Button className="button" disabled={saveEnable} onClick={() => {/* Save Search function implementation */}}>Save Search</Button>
-                    <Button className="button" onClick={() => {/* Clear All function implementation */}}>Clear All</Button>
+                   
+                   
+
+
+                    <Button className="button"  type="submit">Get Example Results</Button> <Button className="button"  disabled={saveEnable} onClick={e => { saveSearch(e) }}>Save Search</Button> <Button className="button"  onClick={e => { clearAll(e) }}>Clear All</Button>
                 </Form.Group>
             </Form>
             <br />
             <center>
-                {loaded && <Spinner animation="grow" />}
+                {loaded === true && <Spinner animation="grow" />}
                 {message}
             </center>
-            {articles.length > 0 && (
+            {flag.length > 0 &&
                 <div>
+
                     <ul>
                         <br />
-                        <h2 style={{ background: "#9cc069" }}>{articles.length} Results Found!</h2>
-                        {articles.map((article, index) => (
-                            <div key={index}>
-                                <br />
-                                <h3 style={{ background: "#cbecff", padding: "15px" }}>
-                                    {article.title}
-                                </h3>
-                                <p><b>{article.pubDate}</b></p>
-                                <p>{article.description}</p>
-                                <p><a href={article.link} target="_blank" rel="noopener noreferrer">Link</a></p>
-                            </div>
-                        ))}
+
+                        {count > 0 && <h2 style={{ background: "#9cc069" }}>{count} Results Found!</h2>}
+                        {articles.length > 0 && articles.map(article => {
+                            return (
+                                <div key={key++}>
+
+                                    <br />
+
+                                    <h3 style={{ background: "#cbecff", padding: "15px" }}>
+                                        {article.title}
+                                    </h3>
+                                    <p><b>{article.link}</b></p>
+                                  
+                                    <p>{article.description}</p>
+                                    <p><b>{article.pubDate}</b></p>
+                                    <p><b>{article.guid}</b></p>
+                                </div>
+                            )
+                        })}
+
+
                     </ul>
+
+                    {searchSaved.length > 0 && <div>
+                        <Badge bg="secondary" style={{ fontSize: "15px" }}>RSS link = <a href={rssLink} target="_blank" style={{ color: "white" }}>{rssLink}</a></Badge>
+                        {/* <Button className="button"  type="copy" onClick={() => { navigator.clipboard.writeText(rssLink); setCopy(true) }}>Copy Link</Button> */}
+                    </div>
+
+                    }
                 </div>
-            )}
-            {noDoc === "true" && (
+
+            }
+
+            {noDoc == "true" &&
                 <div>
                     <br />
                     <br />
                     <h3 style={{ background: "#FF7272" }}>No Results Found!!!</h3>
                 </div>
-            )}
+
+            }
             {isCopied && <p>Link Copied!!</p>}
+
         </Container>
+
+
     );
 };
 
-export default CreateAvoin;
+export default CreateEspace;

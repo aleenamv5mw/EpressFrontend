@@ -12,8 +12,9 @@ import BooleanGuide from './components/booleanguide';
 import './fonts/mwfont/gt.ttf';
 
 import CreateAvoin from './components/createAvoin';
+import CreateEspace from './components/createEspace';
 
-
+import CreatePaikat from './components/createPaikat';
 
 
 
@@ -36,6 +37,8 @@ function App() {
           <Route path="/Accounts" element={<ViewAccounts/>}  />
           <Route path="/createEpress" element={<CreateEpress/>}  />
           <Route path="/createAvoin" element={<CreateAvoin/>}  />
+          <Route path="/createEspace" element={<CreateEspace/>}  />
+          <Route path="/createPaikat" element={<CreatePaikat/>}  />
           <Route path="/allfeeds" element={<AllFeeds/>}  />
           <Route path="/login" element={<Login/>} />
           <Route path="/subscription" element={<Subscription/>} />
